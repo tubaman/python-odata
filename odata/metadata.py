@@ -22,8 +22,8 @@ class MetaData(object):
 
     log = logging.getLogger('odata.metadata')
     namespaces = {
-        'edm': 'http://docs.oasis-open.org/odata/ns/edm',
-        'edmx': 'http://docs.oasis-open.org/odata/ns/edmx'
+        'edm': 'http://schemas.microsoft.com/ado/2007/05/edm',
+        'edmx': 'http://schemas.microsoft.com/ado/2007/06/edmx'
     }
 
     property_types = {
@@ -377,7 +377,11 @@ class MetaData(object):
 
         for nav_property in xmlq(entity_element, 'edm:NavigationProperty'):
             p_name = nav_property.attrib['Name']
-            p_type = nav_property.attrib['Type']
+            try:
+                p_type = nav_property.attrib['Type']
+            except KeyError:
+                p_type = nav_property.attrib['Relationship']
+
             p_foreign_key = None
 
             ref_constraint = xmlq(nav_property, 'edm:ReferentialConstraint')
