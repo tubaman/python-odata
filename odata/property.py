@@ -306,4 +306,4 @@ class UUIDProperty(StringProperty):
     def escape_value(self, value):
         if value is None:
             return 'null'
-        return str(value)
+        return "guid'%s'" % value
